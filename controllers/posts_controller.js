@@ -38,4 +38,16 @@ router.put('/:id', requireToken, async (req, res, next) => {
     }
 })
 
+router.delete("/:id", requireToken, async (req, res, next) => {
+    try {
+      handleValidateOwnership(req, await db.Post.findById(req.params.id));
+      const deletedPost = await db.Post.findByIdAndRemove(req.params.id);
+      res.status(200).json(deletedPost);
+    } catch (error) {
+      console.error(error)
+      return next(error)
+    }
+  });
+  
+
 module.exports = router
