@@ -1,5 +1,5 @@
 const express = require("express");
-const User = require("../models/User");
+const db = require('../models')
 const bcrypt = require("bcrypt");
 const { createUserToken, requireToken } = require("../middleware/auth");
 
@@ -32,7 +32,7 @@ router.post("/register", async (req, res, next) => {
         req.body.password = passwordHash;
         //modify req.body (for storing hash in db)
 
-        const newUser = await User.create(req.body);
+        const newUser = await db.User.create(req.body);
 
         if (newUser) {
             req.body.password = pwStore;
@@ -53,7 +53,7 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
     try {
         const loggingUser = req.body.username;
-        const foundUser = await User.findOne({ username: loggingUser });
+        const foundUser = await db.User.findOne({ username: loggingUser });
         const token = await createUserToken(req, foundUser);
         res.status(200).json({
             user: foundUser,
