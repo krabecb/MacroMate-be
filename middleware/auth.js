@@ -107,7 +107,7 @@ const createUserToken = (req, user) => {
 }
 
 const handleValidateOwnership = (req, document) => {
-    const ownerId = document.owner._id || document.owner;
+    const ownerId = document.user._id || document.user;
     
       // Check if the current user is also the owner of the document
     

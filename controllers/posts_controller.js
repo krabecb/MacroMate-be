@@ -1,6 +1,6 @@
 const express = require("express")
 const db = require('../models')
-const { requireToken } = require("../middleware/auth");
+const { handleValidateOwnership, requireToken } = require("../middleware/auth");
 
 const router = express.Router()
 
@@ -22,10 +22,20 @@ router.post("/", requireToken, async (req, res, next) => {
         const newPost = await db.Post.create(req.body);
         res.status(201).json(newPost);
     } catch (error) {
-        res.status(400).json({
-            error: error.message,
-        });
+        console.error(error)
+        return next(error)
     }
 });
+
+router.put('/:id', requireToken, async (req, res, next) => {
+    try {
+        handleValidateOwnership(req, await db.Post.findById(req.params.id))
+        const updatedPost = await db.Post.findByIdAndUpdate(req.params.id, req.body, {new: true})
+        return res.status(200).json(updatedPost)
+    } catch (error) {
+        console.error(error)
+        return next(error)
+    }
+})
 
 module.exports = router
