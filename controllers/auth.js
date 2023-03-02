@@ -14,8 +14,8 @@ router.get("/logout", requireToken, async (req, res, next) => {
             isLoggedIn: false,
             token: "",
         });
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
 });
 
@@ -45,8 +45,8 @@ router.post("/register", async (req, res, next) => {
         } else {
             res.status(400).json({ error: "Something went wrong" })
         }
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
 });
 
@@ -60,8 +60,8 @@ router.post("/login", async (req, res, next) => {
             isLoggedIn: true,
             token,
         });
-    } catch (err) {
-        res.status(401).json({ error: err.message });
+    } catch (error) {
+        res.status(401).json({ error: error.message });
     }
 });
 
