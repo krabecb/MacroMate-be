@@ -14,6 +14,34 @@ router.get('/', async (req, res) => {
     }
 })
 
+//GET all from breakfast category
+router.get('/breakfast', async (req, res) => {
+    try {
+        const breakfastPosts = await db.Post.find({'category': 'Breakfast'})
+        return res.status(200).json(breakfastPosts)
+    } catch (error) {
+        console.error(error)
+    }
+})
+//GET all from lunch category
+router.get('/lunch', async (req, res) => {
+    try {
+        const lunchPosts = await db.Post.find({'category': 'Lunch'})
+        return res.status(200).json(lunchPosts)
+    } catch (error) {
+        console.error(error)
+    }
+})
+//GET all from dinner category
+router.get('/dinner', async (req, res) => {
+    try {
+        const dinnerPosts = await db.Post.find({'category': 'Dinner'})
+        return res.status(200).json(dinnerPosts)
+    } catch (error) {
+        console.error(error)
+    }
+})
+
 router.post("/", requireToken, async (req, res, next) => {
     try {
         // passport will verify the the token passed with the request's Authorization headers and set the current user for the request. 
