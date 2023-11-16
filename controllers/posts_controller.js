@@ -42,6 +42,16 @@ router.get('/dinner', async (req, res) => {
     }
 })
 
+router.get('/:id', requireToken, async (req, res, next) => {
+    try {
+        const foundPost = await db.Post.findById(req.params.id)
+        res.status(201).json(foundPost)
+    } catch (error) {
+        console.error(error)
+        return next(error)
+    }
+})
+
 router.post("/", requireToken, async (req, res, next) => {
     try {
         // passport will verify the the token passed with the request's Authorization headers and set the current user for the request. 
